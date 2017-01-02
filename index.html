@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app = "adBook">
+  <head>
+    <meta charset="utf-8">
+    <title>AdBookNg</title>
+    <!-- ANGULARJS IMPORT -->
+    <script src = "../angular.min.js"></script>
+    <!-- MODULE FILE -->
+    <script src = "adBook.js"></script>
+    <!-- COMPONENTS -->
+    <script src = "createContact.js"></script>
+    <script src = "listContacts.js"></script>
+    <!-- SERVICES -->
+    <script src = "adBookService.js"></script>
+    <!-- CONSTANTS -->
+    <script src = "statesList.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <style>
+
+    td, th {
+
+      padding : 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+
+    }
+
+    </style>
+    <script>
+
+    app.component('main', {
+      controller : function(adBookService, STATES_LIST){
+        var vm = this;
+
+        vm.contacts = adBookService.getContacts();
+        vm.remove = function(c){
+          console.log("removing: "+c);
+          adBookService.removeContact(c);
+        };
+
+        vm.states = function(){
+          console.log("cl: " + STATES_LIST);
+          return STATES_LIST.states;
+        };
+
+      },
+      template: `
+      <create-contact states = "$ctrl.states()"></create-contact>
+      <br><br>
+      <list-contacts contacts="$ctrl.contacts", remove="$ctrl.remove"></list-contacts>
+      `
+    });
+
+    </script>
+  </head>
+  <body>
+    <h1>{{"Address Book"}}</h1>
+    <main></main>
+  </body>
+</html>
